@@ -41,13 +41,22 @@ class RegisterModel {
   // Update saveUserDataToFile method
   private void saveUserDataToFile(String fullName, String emailAddress, String password) {
     try {
-      String userData = "Full Name: " + fullName + "\n" +
-                        "Email Address: " + emailAddress + "\n" +
-                        "Password: " + password + "\n\n";
+        Path filePath = Paths.get(FILE_PATH);
 
-      Files.write(Paths.get(FILE_PATH), userData.getBytes(), java.nio.file.StandardOpenOption.APPEND);
+        if (!Files.exists(filePath)) {
+            Files.createFile(filePath);
+        }
+
+        String userData = "Full Name: " + fullName + "\n" +
+                "Email Address: " + emailAddress + "\n" +
+                "Password: " + password + "\n\n";
+
+        // Append the user data to the file
+        Files.write(filePath, userData.getBytes(), StandardOpenOption.APPEND);
     } catch (IOException e) {
-      e.printStackTrace();
+        e.printStackTrace();
+        
     }
-  }
+}
+
 }

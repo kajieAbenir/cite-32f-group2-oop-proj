@@ -88,3 +88,6 @@ class RegisterView implements ActionListener {
         }
     }
 }
+
+
+// dili pa ni final since naa may nausab sa components, i will use it. ill finish this tomorrow.

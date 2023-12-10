@@ -15,11 +15,7 @@ class RegisterModel {
             appendUserDataToTextArea("Registered User:");
             appendUserDataToTextArea("Full Name: " + fullName);
             appendUserDataToTextArea("Email Address: " + emailAddress);
-
-            // Note: In a real-world scenario, you should not store passwords in plain text.
-            // Consider using a secure hashing algorithm and salt to store passwords securely.
-
-            // Save the user data to a file
+            
             saveUserDataToFile(fullName, emailAddress, password);
 
             return true;

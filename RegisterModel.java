@@ -10,93 +10,59 @@ class RegisterModel {
 
     private static final String FILE_PATH = "users.dat";
 
-    public boolean registerUser(String fullName, String emailAddress, String password) {
-        if (isValidInput(fullName, emailAddress, password)) {
-            appendUserDataToTextArea("Registered User:");
-            appendUserDataToTextArea("Full Name: " + fullName);
-            appendUserDataToTextArea("Email Address: " + emailAddress);
-            
-            saveUserDataToFile(fullName, emailAddress, password);
 
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    //literal. kung empty, 'false' ang boolean value.
     private boolean isValidInput(String fullName, String emailAddress, String password) {
         return !fullName.isEmpty() && !emailAddress.isEmpty() && !password.isEmpty();
     }
 
-    private void saveUserDataToFile(String fullName, String emailAddress, String password) {
-        try {
-            String userData = "Full Name: " + fullName + "\n" +
-                    "Email Address: " + emailAddress + "\n" +
-                    "Password: " + password + "\n\n";
+    //dapat walay duplicate, or else magkaboang ang system [worst case scenario]
+    private boolean noDuplicateCheck(String fullName, String emailAddress, String password){
+        String userData = fullName + "\t" + emailAddress + "\t" + password + "\n";
 
-            Files.write(Paths.get(FILE_PATH), userData.getBytes(), java.nio.file.StandardOpenOption.APPEND);
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(delimiter);
+
+                if (parts[0].equals(data) && parts[1].equals(data) && parts[2].equals(data)) {
+                    return false;
+                }
+            }
+            return true;
+
         } catch (IOException e) {
-            e.printStackTrace();
+            showError();
         }
-    }package oop.project;
-
-import javax.swing.*;
-import java.io.IOException;
-import java.nio.file.*;
-
-class RegisterModel {
-
-  private static final String FILE_PATH = "users.dat";
-  private JTextArea outputTextArea;
-
-  public RegisterModel(JTextArea outputTextArea) {
-    this.outputTextArea = outputTextArea;
-  }
-
-  public boolean registerUser(String fullName, String emailAddress, String password) {
-    if (isValidInput(fullName, emailAddress, password)) {
-      appendUserDataToTextArea("Registered User:");
-      appendUserDataToTextArea("Full Name: " + fullName);
-      appendUserDataToTextArea("Email Address: " + emailAddress);
-
-      // Save the user data to a file
-      saveUserDataToFile(fullName, emailAddress, password);
-
-      return true;
-    } else {
-      return false;
     }
-  }
 
-  // Update isValidInput method
-  private boolean isValidInput(String fullName, String emailAddress, String password) {
-    return !fullName.isEmpty() && !emailAddress.isEmpty() && !password.isEmpty();
-  }
+    //if all test above has passed, i-save na dayon niya sa file.
+    private void saveUserDataToFile(String fullName, String emailAddress, String password) {
+        int saved = 0;
 
-  // Update appendUserDataToTextArea method
-  private void appendUserDataToTextArea(String text) {
-    outputTextArea.append(text + "\n");
-  }
+        try {
+            String userData = fullName + "\t" + emailAddress + "\t" + password + "\n";
 
-  // Update saveUserDataToFile method
-  private void saveUserDataToFile(String fullName, String emailAddress, String password) {
-    try {
-        Path filePath = Paths.get(FILE_PATH);
+            FileWriter fileWriter = new FileWriter(FILE_PATH);
+            fileWriter.write(userData);
+            fileWriter.close();
+            saved = 1;
 
-        if (!Files.exists(filePath)) {
-            Files.createFile(filePath);
+        } catch (IOException e) {
+            showError();
         }
 
-        String userData = "Full Name: " + fullName + "\n" +
-                "Email Address: " + emailAddress + "\n" +
-                "Password: " + password + "\n\n";
-
-        // Append the user data to the file
-        Files.write(filePath, userData.getBytes(), StandardOpenOption.APPEND);
-    } catch (IOException e) {
-        e.printStackTrace();
-        
+        //checks saved integer, kung na-save, oke na.
+        if(saved == 1){
+            JOptionPane.showMessageDialog(Components.mainFrame, "REGISTERED SUCCESSFULLY");
+        } else {
+            JOptionPane.showMessageDialog(Components.mainFrame, "Registration Failed! Please check your input.");
+        }
     }
-}
 
+    //show error kung dili mugana. via window ang pag-show para di nalang ma-tagam ang developer sa pag-specify [like the user would care (except kung si sir loki ang user ah ANG OA NALANG)].
+    private void showError(){
+        JOptionPane.showMessageDialog(Components.mainFrame, "An error has occured.");
+    }
 }

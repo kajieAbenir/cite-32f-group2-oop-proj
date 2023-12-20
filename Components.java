@@ -12,10 +12,11 @@ public class Components {
         mainFrame.setVisible(true);
     }
 
-    static void addFrame() {
+    void addFrame() {
         mainFrame.setSize(1200, 800);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setResizable(false);
     }
 
     static void addPanel(JPanel panel, int xAxis, int yAxis, int width, int height) {
@@ -23,9 +24,12 @@ public class Components {
         panel.setLayout(null);
     }
 
-    /* gi remove nako ang mga method nga gi add ni chairman, so if ever mag add mo ug label, kamo nalang set sa FONT. and make sure
-        nga nakauyon na sa atoang gi sabotan nga mga sizes sa font. 
+    // BADAYOS KUMINT.
+    /* 
+        gi remove nako ang mga method nga gi add ni chairman, so if ever mag add mo ug label, kamo nalang set sa FONT.
+        make sure nga nakauyon na sa atoang gi sabotan nga mga sizes sa font. 
     */
+
     static void addLabel(JPanel panel, JLabel label, int xAxis, int yAxis, int width, int height) {
         label.setBounds(xAxis, yAxis, width, height);
         panel.add(label);
@@ -45,8 +49,10 @@ public class Components {
         textArea.setBounds(xAxis, yAxis, width, height);
         panel.add(textArea);
     }
-    //make sure to use tis method sa actionListener
-    static void clearFrame() {
+
+    //BADAYOS KUMINT.
+    //make sure to use this sa actionListener
+    void clearFrame() {
         mainFrame.getContentPane().removeAll();
         mainFrame.validate();
         mainFrame.repaint();

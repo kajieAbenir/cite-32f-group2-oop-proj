@@ -5,16 +5,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import oop.project.*;
+
 class RegisterView implements ActionListener {
 
+    private JLabel fullNameLabel;
     private JTextField fullNameTextField;
+
+    private JLabel emailAddressLabel;
     private JTextField emailAddressTextField;
+
+    private JLabel passwordLabel;
     private JPasswordField passwordField;
 
     private RegisterController registerController;
 
     public RegisterView() {
         new Components();
+
         initializeGUI();
     }
 
@@ -28,21 +36,21 @@ class RegisterView implements ActionListener {
         Components.addLabel(registerPanel, firstTimeLabel, 850, 50, 150, 60);
         firstTimeLabel.setFont(new Font("Arial", Font.BOLD, 19));
 
-        JLabel fullNameLabel = new JLabel("FULL NAME");
+        fullNameLabel = new JLabel("FULL NAME");
         Components.addLabel(registerPanel, fullNameLabel, 640, 130, 100, 30);
         fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
         fullNameTextField = new JTextField();
         Components.addTextField(registerPanel, fullNameTextField, 640, 180, 450, 40);
 
-        JLabel emailAddressLabel = new JLabel("E-MAIL ADDRESS");
+        emailAddressLabel = new JLabel("E-MAIL ADDRESS");
         Components.addLabel(registerPanel, emailAddressLabel, 640, 250, 200, 30);
         emailAddressLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
         emailAddressTextField = new JTextField();
         Components.addTextField(registerPanel, emailAddressTextField, 640, 300, 450, 40);
 
-        JLabel passwordLabel = new JLabel("PASSWORD");
+        passwordLabel = new JLabel("PASSWORD");
         Components.addLabel(registerPanel, passwordLabel, 640, 370, 200, 30);
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
@@ -56,38 +64,27 @@ class RegisterView implements ActionListener {
         JButton cancelButton = new JButton("CANCEL");
         Components.addButton(registerPanel, cancelButton, 640, 590, 450, 40);
         cancelButton.addActionListener(this);
-
-        // Update the instantiation of RegisterController
-        registerController = new RegisterController(fullNameTextField, emailAddressTextField, passwordField);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("REGISTER")) {
+        if(e.getSource() == registerButton) {
             String fullName = fullNameTextField.getText();
-            String emailAddress = emailAddressTextField.getText();
-            char[] passwordChars = passwordField.getPassword();
-            String password = new String(passwordChars);
+            String email = emailAddressTextField.getText();
+            char[] passChar = passwordField.getPassword();
+            String passString = new String(passChar);
 
-            RegisterModel registerModel = new RegisterModel();
+            //send to controller constructor to save info
+            registerController = new RegisterController(fullName, email, passString);
+        }
 
-            boolean registrationSuccessful = registerModel.registerUser(fullName, emailAddress, password);
-
-            if (registrationSuccessful) {
-                fullNameTextField.setText("");
-                emailAddressTextField.setText("");
-                passwordField.setText("");
-
-                // Display a dialog with the message "REGISTERED SUCCESSFULLY"
-                JOptionPane.showMessageDialog(Components.mainFrame, "REGISTERED SUCCESSFULLY");
-            } else {
-                JOptionPane.showMessageDialog(Components.mainFrame, "Registration Failed! Please check your input.");
-            }
-        } else if (e.getActionCommand().equals("CANCEL")) {
-            // Handle cancel action if needed
+        else if (e.getSource() == cancelButton){
+            //go back to login button.
         }
     }
-}
 
-
+//BADAYOS KUMINT.
 // dili pa ni final since naa may nausab sa components, i will use it. ill finish this tomorrow.
+
+//ABENIR KUMINT.
+// IHHHHHHHHHHHHHHHHHHHH ANG OA ANG OA ANG OA ANG OA GUARD ANG OA NG TEAM LEAD NAMIN

@@ -1,45 +1,69 @@
 package oop.project;
 
 import javax.swing.*;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import oop.project.*;
 
 class RegisterModel {
 
     private static final String FILE_PATH = "users.dat";
 
-
-    //literal. kung empty, 'false' ang boolean value.
-    private boolean isValidInput(String fullName, String emailAddress, String password) {
-        return !fullName.isEmpty() && !emailAddress.isEmpty() && !password.isEmpty();
+    //FOR TESTING PURPOSES.
+    public RegisterModel(){
+        System.out.println("Object created.");
     }
 
+    //BRENT KUMINT
+    //literal. kung empty, 'false' ang boolean value.
+    boolean isValidInput(String fullName, String emailAddress, String password) {
+        return !fullName.isEmpty() && !emailAddress.isEmpty() && !emailAddress.contains(" ") && !password.isEmpty() && !password.contains(" ");
+    }
+
+    //BRENT KUMINT
     //dapat walay duplicate, or else magkaboang ang system [worst case scenario]
-    private boolean noDuplicateCheck(String fullName, String emailAddress, String password){
-        String userData = fullName + "\t" + emailAddress + "\t" + password + "\n";
+    boolean noDuplicateCheck(String fullName, String emailAddress, String password){
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(delimiter);
-
-                if (parts[0].equals(data) && parts[1].equals(data) && parts[2].equals(data)) {
+        try {
+            String[] parts = databaseReader();
+            while(databaseReader()){
+                if (parts[0].equals(fullName) && parts[1].equals(emailAddress) && parts[2].equals(password)) {
                     return false;
                 }
             }
-            return true;
 
+            return true;
+        } catch(IOException e){
+            showError();
+        }
+
+        return true;
+    }
+
+    private int getIDNum(String fullName, String emailAddress, String password){
+
+    }
+
+    private String databaseReader(){
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                return parts;
+            }
         } catch (IOException e) {
             showError();
         }
     }
 
+    //BRENT KUMINT
     //if all test above has passed, i-save na dayon niya sa file.
-    private void saveUserDataToFile(String fullName, String emailAddress, String password) {
-        int saved = 0;
+    void saveUserDataToFile(String fullName, String emailAddress, String password) {
+        boolean saved = false;
+        int ID = getIDNum();
 
         try {
             String userData = fullName + "\t" + emailAddress + "\t" + password + "\n";
@@ -47,21 +71,24 @@ class RegisterModel {
             FileWriter fileWriter = new FileWriter(FILE_PATH);
             fileWriter.write(userData);
             fileWriter.close();
-            saved = 1;
+            saved = true;
 
         } catch (IOException e) {
             showError();
         }
 
-        //checks saved integer, kung na-save, oke na.
-        if(saved == 1){
+        //BRENT KUMINT
+        //checks saved boolean, kung na-save, oke na.
+        if(saved){
             JOptionPane.showMessageDialog(Components.mainFrame, "REGISTERED SUCCESSFULLY");
         } else {
-            JOptionPane.showMessageDialog(Components.mainFrame, "Registration Failed! Please check your input.");
+            JOptionPane.showMessageDialog(Components.mainFrame, "An error has occured.");
         }
     }
 
-    //show error kung dili mugana. via window ang pag-show para di nalang ma-tagam ang developer sa pag-specify [like the user would care (except kung si sir loki ang user ah ANG OA NALANG)].
+    //BRENT KUMINT
+    //show error kung dili mugana. via window ang pag-show para di nalang ma-tagam ang developer sa pag-specify [like the user would care (except kung si sir ang user ah ANG OA NALANG ANG OA ANG OA ANG OA ANG OA MAY OA DITO)].
+    
     private void showError(){
         JOptionPane.showMessageDialog(Components.mainFrame, "An error has occured.");
     }

@@ -5,86 +5,85 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import oop.project.*;
-
 class RegisterView implements ActionListener {
-
-    private JLabel fullNameLabel;
     private JTextField fullNameTextField;
-
-    private JLabel emailAddressLabel;
     private JTextField emailAddressTextField;
-
-    private JLabel passwordLabel;
     private JPasswordField passwordField;
 
     private RegisterController registerController;
 
     public RegisterView() {
         new Components();
-
         initializeGUI();
     }
 
     private void initializeGUI() {
-        JPanel registerPanel = new JPanel();
-        Components.addPanel(registerPanel, 0, 0, 1200, 800, "#E95793");
-        registerPanel.setLayout(null);
-        Components.mainFrame.add(registerPanel);
+        JPanel leftRegisterPanel = new JPanel();
+        Components.addPanel(leftRegisterPanel, 0, 0, 1200, 800, "#E95793");
+        leftRegisterPanel.setLayout(null);
+        Components.mainFrame.add(leftRegisterPanel);
 
         JLabel firstTimeLabel = new JLabel("FIRST TIME?");
-        Components.addLabel(registerPanel, firstTimeLabel, 850, 50, 150, 60);
+        Components.addLabel(leftRegisterPanel, firstTimeLabel, 850, 50, 150, 60);
         firstTimeLabel.setFont(new Font("Arial", Font.BOLD, 19));
 
-        fullNameLabel = new JLabel("FULL NAME");
-        Components.addLabel(registerPanel, fullNameLabel, 640, 130, 100, 30);
+        JLabel fullNameLabel = new JLabel("FULL NAME");
+        Components.addLabel(leftRegisterPanel, fullNameLabel, 640, 130, 100, 30);
         fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
         fullNameTextField = new JTextField();
-        Components.addTextField(registerPanel, fullNameTextField, 640, 180, 450, 40);
+        Components.addLineTextField(leftRegisterPanel, 640, 180, 450, 40, fullNameTextField);
 
-        emailAddressLabel = new JLabel("E-MAIL ADDRESS");
-        Components.addLabel(registerPanel, emailAddressLabel, 640, 250, 200, 30);
+        JLabel emailAddressLabel = new JLabel("E-MAIL ADDRESS");
+        Components.addLabel(leftRegisterPanel, emailAddressLabel, 640, 250, 200, 30);
         emailAddressLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
         emailAddressTextField = new JTextField();
-        Components.addTextField(registerPanel, emailAddressTextField, 640, 300, 450, 40);
+        Components.addLineTextField(leftRegisterPanel, 640, 300, 450, 40, emailAddressTextField);
 
-        passwordLabel = new JLabel("PASSWORD");
-        Components.addLabel(registerPanel, passwordLabel, 640, 370, 200, 30);
+        JLabel passwordLabel = new JLabel("PASSWORD");
+        Components.addLabel(leftRegisterPanel, passwordLabel, 640, 370, 200, 30);
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
         passwordField = new JPasswordField();
-        Components.addTextField(registerPanel, passwordField, 640, 420, 450, 40);
+        Components.addLineTextField(leftRegisterPanel, 640, 420, 450, 40, passwordField);
 
         JButton registerButton = new JButton("REGISTER");
-        Components.addButton(registerPanel, registerButton, 640, 520, 450, 40);
+        Components.addButton(leftRegisterPanel, registerButton, 640, 520, 450, 40);
         registerButton.addActionListener(this);
 
         JButton cancelButton = new JButton("CANCEL");
-        Components.addButton(registerPanel, cancelButton, 640, 590, 450, 40);
+        Components.addButton(leftRegisterPanel, cancelButton, 640, 590, 450, 40);
         cancelButton.addActionListener(this);
+
+        // Update the instantiation of RegisterController
+        registerController = new RegisterController(fullNameTextField, emailAddressTextField, passwordField);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == registerButton) {
+        if (e.getActionCommand().equals("REGISTER")) {
             String fullName = fullNameTextField.getText();
-            String email = emailAddressTextField.getText();
-            char[] passChar = passwordField.getPassword();
-            String passString = new String(passChar);
+            String emailAddress = emailAddressTextField.getText();
+            char[] passwordChars = passwordField.getPassword();
+            String password = new String(passwordChars);
 
-            //send to controller constructor to save info
-            registerController = new RegisterController(fullName, email, passString);
-        }
+            RegisterModel registerModel = new RegisterModel();
 
-        else if (e.getSource() == cancelButton){
-            //go back to login button.
+            boolean registrationSuccessful = registerModel.registerUser(fullName, emailAddress, password);
+
+            if (registrationSuccessful) {
+                fullNameTextField.setText("");
+                emailAddressTextField.setText("");
+                passwordField.setText("");
+
+                // Display a dialog with the message "REGISTERED SUCCESSFULLY"
+                JOptionPane.showMessageDialog(Components.mainFrame, "REGISTERED SUCCESSFULLY");
+            } else {
+                JOptionPane.showMessageDialog(Components.mainFrame, "Registration Failed! Please check your input.");
+            }
+        } else if (e.getActionCommand().equals("CANCEL")) {
+            // balik sa loginView
         }
     }
-
-//BADAYOS KUMINT.
-// dili pa ni final since naa may nausab sa components, i will use it. ill finish this tomorrow.
-
-//ABENIR KUMINT.
-// IHHHHHHHHHHHHHHHHHHHH ANG OA ANG OA ANG OA ANG OA GUARD ANG OA NG TEAM LEAD NAMIN
+}

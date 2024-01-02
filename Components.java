@@ -3,8 +3,7 @@ package oop.project;
 import javax.swing.*;
 import java.awt.*;
 
-public class Components {
-
+class Components {
     public static JFrame mainFrame = new JFrame();
 
     Components() {
@@ -12,31 +11,30 @@ public class Components {
         mainFrame.setVisible(true);
     }
 
-    void addFrame() {
+    static void addFrame() {
         mainFrame.setSize(1200, 800);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setLayout(null);
         mainFrame.setResizable(false);
     }
 
-    static void addPanel(JPanel panel, int xAxis, int yAxis, int width, int height) {
+    static void addPanel(JPanel panel, int xAxis, int yAxis, int width, int height, String hexColor) {
+        panel.setBackground(Color.decode(hexColor));
         panel.setBounds(xAxis, yAxis, width, height);
-        panel.setLayout(null);
+        panel.setOpaque(false);
     }
-
-    // BADAYOS KUMINT.
-    /* 
-        gi remove nako ang mga method nga gi add ni chairman, so if ever mag add mo ug label, kamo nalang set sa FONT.
-        make sure nga nakauyon na sa atoang gi sabotan nga mga sizes sa font. 
-    */
 
     static void addLabel(JPanel panel, JLabel label, int xAxis, int yAxis, int width, int height) {
         label.setBounds(xAxis, yAxis, width, height);
         panel.add(label);
     }
 
-    static void addTextField(JPanel panel, JTextField textField, int xAxis, int yAxis, int width, int height) {
-        textField.setBounds(xAxis, yAxis, width, height);
+    static void addLineTextField(JPanel panel, int xAxis, int yAxis, int width, int height, JTextField textField) {
+        textField.setBounds(xAxis, yAxis + height - 30, width, 25);
+        textField.setFont(new Font("Arial", Font.PLAIN, 25));
+        textField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
+        textField.setOpaque(false);
         panel.add(textField);
     }
 
@@ -45,14 +43,7 @@ public class Components {
         panel.add(button);
     }
 
-    static void addTextArea(JPanel panel, JTextArea textArea, int xAxis, int yAxis, int width, int height) {
-        textArea.setBounds(xAxis, yAxis, width, height);
-        panel.add(textArea);
-    }
-
-    //BADAYOS KUMINT.
-    //make sure to use this sa actionListener
-    void clearFrame() {
+    static void clearFrame() {
         mainFrame.getContentPane().removeAll();
         mainFrame.validate();
         mainFrame.repaint();

@@ -2,50 +2,106 @@ package oop.project;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-class Components {
-    public static JFrame mainFrame = new JFrame();
+class RegisterView implements ActionListener {
+    private JTextField fullNameTextField;
+    private JTextField emailAddressTextField;
+    private JPasswordField passwordField;
 
-    Components() {
-        addFrame();
-        mainFrame.setVisible(true);
+    private RegisterController registerController;
+
+    public RegisterView() {
+        new Components();
+        initializeGUI();
     }
 
-    static void addFrame() {
-        mainFrame.setSize(1200, 800);
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setLayout(null);
-        mainFrame.setResizable(false);
-    }
+    private void initializeGUI() {
+    JPanel registerPanel = new JPanel();
+    Components.addPanel(registerPanel, 0, 0, 1200, 800, "#F3F3F3");
+    registerPanel.setLayout(null);
+    Components.mainFrame.add(registerPanel);
 
-    static void addPanel(JPanel panel, int xAxis, int yAxis, int width, int height, String hexColor) {
-        panel.setBackground(Color.decode(hexColor));
-        panel.setBounds(xAxis, yAxis, width, height);
-        panel.setOpaque(false);
-    }
+    JButton signupBtn = new JButton("SIGN UP");
+    Components.addButton(registerPanel, signupBtn, 700, 110, 100, 20);
+    signupBtn.setFont(new Font("Arial", Font.BOLD, 10));
 
-    static void addLabel(JPanel panel, JLabel label, int xAxis, int yAxis, int width, int height) {
-        label.setBounds(xAxis, yAxis, width, height);
-        panel.add(label);
-    }
+    JButton signinBtn = new JButton("SIGN IN");
+    Components.addButton(registerPanel, signinBtn, 850, 110, 100, 20);
+    signinBtn.setFont(new Font("Arial", Font.BOLD, 10));
 
-    static void addLineTextField(JPanel panel, int xAxis, int yAxis, int width, int height, JTextField textField) {
-        textField.setBounds(xAxis, yAxis + height - 30, width, 25);
-        textField.setFont(new Font("Arial", Font.PLAIN, 25));
-        textField.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.BLACK));
-        textField.setOpaque(false);
-        panel.add(textField);
-    }
+    JLabel fullNameLabel = new JLabel("FULL NAME");
+    Components.addLabel(registerPanel, fullNameLabel, 640, 130, 100, 30);
+    fullNameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 
-    static void addButton(JPanel panel, JButton button, int xAxis, int yAxis, int width, int height) {
-        button.setBounds(xAxis, yAxis, width, height);
-        panel.add(button);
-    }
+    fullNameTextField = new JTextField();
+    Components.addLineTextField(registerPanel, 640, 180, 450, 40, fullNameTextField);
 
-    static void clearFrame() {
-        mainFrame.getContentPane().removeAll();
-        mainFrame.validate();
-        mainFrame.repaint();
+    JLabel emailAddressLabel = new JLabel("E-MAIL ADDRESS");
+    Components.addLabel(registerPanel, emailAddressLabel, 640, 250, 200, 30);
+    emailAddressLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
+    emailAddressTextField = new JTextField();
+    Components.addLineTextField(registerPanel, 640, 300, 450, 40, emailAddressTextField);
+
+    JLabel passwordLabel = new JLabel("PASSWORD");
+    Components.addLabel(registerPanel, passwordLabel, 640, 370, 200, 30);
+    passwordLabel.setFont(new Font("Arial", Font.PLAIN, 15));
+
+    passwordField = new JPasswordField();
+    Components.addLineTextField(registerPanel, 640, 420, 450, 40, passwordField);
+
+    JButton signUpButton = new JButton("SIGN UP");
+    Components.addButton(registerPanel, signUpButton, 640, 520, 450, 40);
+    signUpButton.addActionListener(this);
+
+    JButton hasAnAccountButton = new JButton("I ALREADY HAVE AN ACCOUNT");
+    Components.addButton(registerPanel, hasAnAccountButton, 640, 590, 450, 40);
+    hasAnAccountButton.addActionListener(this);
+
+    signUpButton.setBackground(Color.BLUE);
+    signUpButton.setForeground(Color.WHITE);
+    signUpButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true)); 
+
+    hasAnAccountButton.setBackground(null);
+    hasAnAccountButton.setForeground(Color.RED);
+    hasAnAccountButton.setBorder(BorderFactory.createLineBorder(Color.RED, 2, true));
+
+    ImageIcon imageIcon = new ImageIcon("Badz.png"); 
+    JLabel imageLabel = new JLabel(imageIcon);
+        
+    int imageWidth = imageIcon.getIconWidth();
+    int imageHeight = imageIcon.getIconHeight();
+    imageLabel.setBounds(0, 0, imageWidth, imageHeight);
+
+    registerPanel.add(imageLabel);
+}
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("SIGN UP")) {
+            String fullName = fullNameTextField.getText();
+            String emailAddress = emailAddressTextField.getText();
+            char[] passwordChars = passwordField.getPassword();
+            String password = new String(passwordChars);
+
+            RegisterModel registerModel = new RegisterModel();
+
+            boolean registrationSuccessful = registerModel.registerUser(fullName, emailAddress, password);
+
+            if (registrationSuccessful) {
+                fullNameTextField.setText("");
+                emailAddressTextField.setText("");
+                passwordField.setText("");
+
+                JOptionPane.showMessageDialog(Components.mainFrame, "REGISTERED SUCCESSFULLY");
+            } else {
+                JOptionPane.showMessageDialog(Components.mainFrame, "Registration Failed! Please check your input.");
+            }
+        } else if (e.getActionCommand().equals("CANCEL")) {
+            //balik sa loginPanel. work by boytapang
+        }
     }
 }

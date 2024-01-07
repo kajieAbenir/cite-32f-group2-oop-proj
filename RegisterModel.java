@@ -28,7 +28,7 @@ class RegisterModel {
 
         try {
             String[] parts = databaseReader();
-            while(databaseReader()){
+            while(!databaseReader().equals(null)){
                 if (parts[0].equals(fullName) && parts[1].equals(emailAddress) && parts[2].equals(password)) {
                     return false;
                 }
@@ -42,11 +42,7 @@ class RegisterModel {
         return true;
     }
 
-    private int getIDNum(String fullName, String emailAddress, String password){
-
-    }
-
-    private String databaseReader(){
+    private String[] databaseReader(){
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
 
@@ -63,7 +59,7 @@ class RegisterModel {
     //if all test above has passed, i-save na dayon niya sa file.
     void saveUserDataToFile(String fullName, String emailAddress, String password) {
         boolean saved = false;
-        int ID = getIDNum();
+        int ID = getIDNum(emailAddress,password);
 
         try {
             String userData = fullName + "\t" + emailAddress + "\t" + password + "\n";
@@ -83,6 +79,20 @@ class RegisterModel {
             JOptionPane.showMessageDialog(Components.mainFrame, "REGISTERED SUCCESSFULLY");
         } else {
             JOptionPane.showMessageDialog(Components.mainFrame, "An error has occured.");
+        }
+    }
+
+    private int getIDNum(String emailAddress, String password){
+        try {
+            String[] parts = databaseReader();
+            while(!databaseReader().equals(null)){
+                if (parts[1].equals(emailAddress) && parts[2].equals(password)) {
+                    int ID = Integer.valueOf(parts[4]);
+                    return ID + 1;
+                }
+            }
+        } catch(IOException e){
+            showError();
         }
     }
 

@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import oop.project.*;
+
 class RegisterView implements ActionListener {
     private JTextField fullNameTextField;
     private JTextField emailAddressTextField;
@@ -56,10 +58,15 @@ class RegisterView implements ActionListener {
         Components.addButton(leftRegisterPanel, cancelButton, 640, 590, 450, 40);
         cancelButton.addActionListener(this);
 
+        // BRENT KUMINT
+        //wait lang kuya badz nganong iupdate ang instantiation? unsay purpose?
+
         // Update the instantiation of RegisterController
-        registerController = new RegisterController(fullNameTextField, emailAddressTextField, passwordField);
+        //registerController = new RegisterController(fullNameTextField, emailAddressTextField, passwordField);
     }
 
+    // UNDER CONSTRUCTION. 
+    //PLEASE REFRAIN FROM BUILDING CODE, PWEDE RA COMMENTS.
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("REGISTER")) {
@@ -68,11 +75,13 @@ class RegisterView implements ActionListener {
             char[] passwordChars = passwordField.getPassword();
             String password = new String(passwordChars);
 
-            RegisterModel registerModel = new RegisterModel();
+            RegisterController registerController = new RegisterController();
 
-            boolean registrationSuccessful = registerModel.registerUser(fullName, emailAddress, password);
+            //SECURITY UPDATE: THERE ARE CASES OF DUPLICATION KUNG I-DERECHO UG SAVE.
+            //updated it to direct to controller.
 
-            if (registrationSuccessful) {
+            if(registerController.registerCheckThenSave(fullName,emailAddress,password)){
+
                 fullNameTextField.setText("");
                 emailAddressTextField.setText("");
                 passwordField.setText("");

@@ -4,6 +4,8 @@ import oop.project.*;
 
 public class RegisterController {
 
+    RegisterModel registerModel = new RegisterModel();
+
 	// testing purposes.
 	public RegisterController(){
 		System.out.println("Object created.");
@@ -11,16 +13,19 @@ public class RegisterController {
 
 	//pass information to registerModel for checking, then saving.
 	//return true IF AND ONLY IF makalusot sa tanang methods. that's how strict this controller method is.
+
     public boolean registerCheckThenSave(String fullNameString, String emailString, String passwordString) {
         
         //executes checking methods: isValidInput, and noDuplicateCheck. kung oke, then i-register sa saveUserDataToFile.
 
         //BRENT KUMINT
         //pretty long and a little bit unethical for me, pero i.g. it's the only option ra gyud.
-        
-        if(registerModel.isValidInput(String fullNameString, String emailString, String passwordString) && registerModel.noDuplicateCheck(String fullNameString, String emailString, String passwordString)) {
 
-            registerModel.saveUserDataToFile(String fullNameString, String emailString, String passwordString);
+        
+        
+        if(registerModel.isValidInput(fullNameString, emailString, passwordString) && registerModel.noDuplicateCheck(fullNameString, emailString, passwordString)) {
+
+            registerModel.saveUserDataToFile(fullNameString, emailString, passwordString);
             return true;
         }
 

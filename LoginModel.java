@@ -45,7 +45,7 @@ class LoginModel {
     }
 
     //BRENT KUMINT
-    //show error kung dili mugana. via window ang pag-show para di nalang ma-tagam ang developer sa pag-specify [like the user would care (except kung si sir loki ang user ah ANG OA NALANG ANG OA ANG OA ANG OA ANG OA SIR JORGE MAY OA DITO)].
+    //show error kung dili mugana. via window ang pag-show para di nalang ma-tagam ang developer sa pag-specify [like the user would care (except kung si sir loki ang user ah ANG OA NALANG ANG OA ANG OA ANG OA ANG OA SIR MAY OA DITO)].
     private void showError(){
         JOptionPane.showMessageDialog(Components.mainFrame, "An error has occured.");
     }

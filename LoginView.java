@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 
+import oop.project.*;
 
 public class LoginView {
     private JFrame frame;
@@ -12,7 +13,15 @@ public class LoginView {
     private JPasswordField passwordField;
     private JButton loginButton;
 
-    public LoginView() {
+    public LoginView(){
+        new Components();
+        initializeLoginGUI();
+    }
+
+    //BRENT KUMINT.
+    //code needs to be re-written. okay na ang kaning initialize, ang other methods below needs to be re-routed to controller.
+
+    private void initializeLoginGUI() {
         frame = new JFrame("Login");
         frame.setSize(1600, 1600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -31,8 +40,6 @@ public class LoginView {
         whitePanel.setBounds(601, 0, 700, 800);
         whitePanel.setLayout(null);
         frame.add(whitePanel);
-
-
         
         JLabel citec = new JLabel("CITE CLINIC.INC");
         citec.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -102,19 +109,26 @@ public class LoginView {
         frame.setVisible(true);
     }
 
-    public void setLoginListener(ActionListener listener) {
-        loginButton.addActionListener(listener);
-    }
+    // BRENT KUMINT
+    // naunsa man ni pre? we have controller methods naa sa pikas.
 
-    public String getFullname() {
-        return fullnameField.getText();
-    }
+    // public void setLoginListener(ActionListener listener) {
+    //     loginButton.addActionListener(listener);
+    // }
 
-    public String getPassword() {
-        return new String(passwordField.getPassword());
-    }
+    // public String getFullname() {
+    //     return fullnameField.getText();
+    // }
 
-    public void showMessage(String message) {
-        JOptionPane.showMessageDialog(frame, message);
+    // public String getPassword() {
+    //     return new String(passwordField.getPassword());
+    // }
+
+    // public void showMessage(String message) {
+    //     JOptionPane.showMessageDialog(frame, message);
+    // }
+
+    public void actionPerformed (ActionEvent e){
+
     }
 }

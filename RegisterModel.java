@@ -35,7 +35,8 @@ class RegisterModel {
             }
 
             return true;
-        } catch(IOException e){
+        } catch(IOError e){
+            e.printStackTrace();
             showError();
         }
 
@@ -53,6 +54,8 @@ class RegisterModel {
         } catch (IOException e) {
             showError();
         }
+
+        return null;
     }
 
     //BRENT KUMINT
@@ -91,9 +94,12 @@ class RegisterModel {
                     return ID + 1;
                 }
             }
-        } catch(IOException e){
+        } catch(IOError e){
+            e.printStackTrace();
             showError();
         }
+
+        return -1;
     }
 
     //BRENT KUMINT

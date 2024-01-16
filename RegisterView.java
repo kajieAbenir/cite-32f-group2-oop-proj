@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 import oop.project.*;
 
+//will check later.
+
 class RegisterView implements ActionListener {
     private JTextField fullNameTextField;
     private JTextField emailAddressTextField;
@@ -57,16 +59,11 @@ class RegisterView implements ActionListener {
         JButton cancelButton = new JButton("CANCEL");
         Components.addButton(leftRegisterPanel, cancelButton, 640, 590, 450, 40);
         cancelButton.addActionListener(this);
-
-        // BRENT KUMINT
-        //wait lang kuya badz nganong iupdate ang instantiation? unsay purpose?
-
-        // Update the instantiation of RegisterController
-        //registerController = new RegisterController(fullNameTextField, emailAddressTextField, passwordField);
     }
 
     // UNDER CONSTRUCTION. 
     //PLEASE REFRAIN FROM BUILDING CODE, PWEDE RA COMMENTS.
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("REGISTER")) {

@@ -36,12 +36,16 @@ class LoginModel {
                     return true;
                 }
             }
+            
             br.close();
             return false;
+        }
 
-        } catch (IOException e) {
+        catch (IOException e) {
             showError();
         }
+        
+        return false;
     }
 
     //BRENT KUMINT

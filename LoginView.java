@@ -8,10 +8,7 @@ import java.awt.*;
 import oop.project.*;
 
 public class LoginView {
-    private JFrame frame;
-    private JTextField fullnameField;
-    private JPasswordField passwordField;
-    private JButton loginButton;
+    private static Components Components = new Components();
 
     public LoginView(){
         new Components();
@@ -19,114 +16,57 @@ public class LoginView {
     }
 
     //BRENT KUMINT.
-    //code needs to be re-written. okay na ang kaning initialize, ang other methods below needs to be re-routed to controller.
+    //code needs to be re-written to component-based ;-;
 
-    private void initializeLoginGUI() {
-        frame = new JFrame("Login");
-        frame.setSize(1600, 1600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
+    private static void initializeLoginGUI() {
+
+        //initialize image panel. placeholder for welcome image sa left (see documentation folder).
+        final JPanel imagePanel = new JPanel();
+        Components.addPanel(imagePanel, 0, 0, 600, 800, "FFFFFF");
+
+        final JPanel loginPanel = new JPanel();
+        Components.addPanel(loginPanel, 601, 0, 700, 800, "FFFFFF");
+
+        //for the rest of the stuff, naa sa method parameter included what panel isulod ang component.
         
-        //Create blue panel
-        JPanel bluePanel = new JPanel();
-        bluePanel.setBackground(Color.BLUE);
-        bluePanel.setBounds(0, 0, 600, 800);
-        bluePanel.setLayout(null);
-        frame.add(bluePanel);
+        final JLabel citeClinicLabel = new JLabel("CITE INC. CLINIC");
+        Components.addLabel(loginPanel, citeClinicLabel, 90, 10, 200, 100, "ARIAL", 1, 40);
 
-        //Create white panel
-        JPanel whitePanel = new JPanel();
-        whitePanel.setBackground(Color.WHITE);
-        whitePanel.setBounds(601, 0, 700, 800);
-        whitePanel.setLayout(null);
-        frame.add(whitePanel);
-        
-        JLabel citec = new JLabel("CITE CLINIC.INC");
-        citec.setFont(new Font("Arial", Font.PLAIN, 40));
-        citec.setBounds(90, 10, 300, 200);
-        citec.setSize(700, 100);
-        bluePanel.add(citec);
+        //correction: initial submissions found na jlabel siya, where it supposed to be a button with same background.
 
-        JLabel signup = new JLabel("Sign up");
-        signup.setBounds(300, 60, 50, 25);
-        signup.setForeground(Color.GRAY);
-        whitePanel.add(signup);
+        final JLabel loginLabel = new JLabel("Login");
+        Components.addLabel(loginPanel,loginLabel,300,60,50,25, Color.GRAY);
 
-        JLabel signin = new JLabel("Sign in");
-        signin.setBounds(380, 60, 50, 25);
-        signin.setForeground(Color.GRAY);
-        whitePanel.add(signin);
+        final JLabel fullnameLabel = new JLabel("Full Name");
+        Components.addLabel(loginPanel, fullnameLabel, 290, 120, 80, 25, Color.BLUE.brighter());
 
-        JLabel fullnameLabel = new JLabel("Full Name:");
-        fullnameLabel.setBounds(290, 120, 80, 25);
-        fullnameLabel.setForeground(Color.BLUE);
-        whitePanel.add(fullnameLabel);
+        final JTextField fullnameField = new JTextField(100);
+        Components.addLineTextField(loginPanel, 890, 150, 300, 30, fullnameField);
 
-        fullnameField = new JTextField();
-        fullnameField.setBounds(890, 150, 300, 30);
-        frame.add(fullnameField);
+        final JLabel emailLabel = new JLabel("Email Address");
+        Components.addLabel(loginPanel, emailLabel, 290, 220, 100, 30, Color.BLUE.brighter());
 
-        JLabel emaillabel = new JLabel("Email Address:");
-        emaillabel.setBounds(290, 220, 100, 30);
-        emaillabel.setForeground(Color.BLUE);
-        whitePanel.add(emaillabel);
+        final JTextField emailField = new JTextField();
+        Components.addLineTextField(loginPanel, 890, 250, 300, 30, emailField);
 
-        JTextField emailField = new JTextField();
-        emailField.setBounds(890, 250, 300, 30);
-        frame.add(emailField);
+        final JLabel passwordLabel = new JLabel("Password:");
+        Components.addLabel(loginPanel, passwordLabel, 290, 320, 80, 25, Color.BLUE.brighter());
 
-        JLabel passwordLabel = new JLabel("Password:");
-        passwordLabel.setBounds(290, 320, 80, 25);
-        passwordLabel.setForeground(Color.BLUE);
-        whitePanel.add(passwordLabel);
+        final JPasswordField passwordField = new JPasswordField();
+        Components.addPasswordField(passwordField, loginPanel, 890, 350, 300, 30);
 
-        passwordField = new JPasswordField();
-        passwordField.setBounds(890, 350, 300, 30);
-        frame.add(passwordField);
+        final JButton loginButton = new JButton("Log in");
+        Components.addButton(loginPanel, loginButton, 375, 400, 150, 30, Color.WHITE, Color.BLUE.brighter());
 
-        loginButton = new JButton("Login");
-        loginButton.setBounds(360, 405, 120, 25);
-        loginButton.setSize(150, 30);
-        loginButton.setForeground(Color.WHITE);
-        loginButton.setBackground(Color.BLUE);
-        whitePanel.add(loginButton);
+        final JButton registerButton = new JButton("Create an Account");
+        Components.addButton(loginPanel, registerButton, 375, 440, 150, 30, Color.RED, Color.WHITE);
 
-        JLabel createlabel = new JLabel("Create and Account");
-        createlabel.setBounds(375, 440, 150, 30);
-        createlabel.setForeground(Color.RED);
-        whitePanel.add(createlabel);
+        final JLabel contactNumberLabel = new JLabel("09123456789");
+        Components.addLabel(loginPanel, contactNumberLabel, 270, 600, 80, 25,Color.GRAY);
 
-        JLabel number = new JLabel("09123456789");
-        number.setBounds(270, 600, 80, 25);
-        whitePanel.add(number);
-
-        JLabel gmail = new JLabel("cite.clinic.inc.ph@gmail.com");
-        gmail.setBounds(400, 600, 200, 25);
-        whitePanel.add(gmail);
-
-    
-
-        frame.setVisible(true);
+        final JLabel emailAddressLabel = new JLabel("cite.clinic.inc.ph@gmail.com");
+        Components.addLabel(loginPanel, emailAddressLabel, 400, 600, 200, 25,Color.GRAY);
     }
-
-    // BRENT KUMINT
-    // naunsa man ni pre? we have controller methods naa sa pikas.
-
-    // public void setLoginListener(ActionListener listener) {
-    //     loginButton.addActionListener(listener);
-    // }
-
-    // public String getFullname() {
-    //     return fullnameField.getText();
-    // }
-
-    // public String getPassword() {
-    //     return new String(passwordField.getPassword());
-    // }
-
-    // public void showMessage(String message) {
-    //     JOptionPane.showMessageDialog(frame, message);
-    // }
 
     public void actionPerformed (ActionEvent e){
 
